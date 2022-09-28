@@ -7,12 +7,17 @@
   "scripts": {
     "test": "yarn clean && jest --coverage",
     "build": "tsc",
-    "clean": "rm -f lib/*.d.ts lib/*.js index.js index.d.ts"
+    "clean": "rm -f lib/*.d.ts lib/*.js index.js index.d.ts",
+    "deploy": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/spring-media/aws-lambda-router.git"
   },
+  "files": [
+    "index.js",
+    "lib/*.js"
+  ],
   "keywords": [
     "aws",
     "lambda",
