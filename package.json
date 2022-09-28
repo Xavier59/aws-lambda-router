@@ -16,7 +16,9 @@
   },
   "files": [
     "index.js",
-    "lib/*.js"
+    "index.d.ts",
+    "lib/*.js",
+    "lib/*.d.ts"
   ],
   "keywords": [
     "aws",

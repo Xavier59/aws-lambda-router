@@ -45,6 +45,25 @@ const handler = (routeConfig) => {
     };
 };
 exports.handler = handler;
+const proxyIntegration = require("./lib/proxyIntegration");
+const sns = require("./lib/sns");
+const sqs = require("./lib/sqs");
+const s3 = require("./lib/s3");
+const processors = {
+    proxyIntegration,
+    sns,
+    sqs,
+    s3,
+};
+const isProcessorKey = (key) => {
+    return Object.prototype.hasOwnProperty.call(processors, key);
+};
+const getProcessor = (key) => {
+    if (!isProcessorKey(key)) {
+        return require(`./lib/${key}`);
+    }
+    return processors[key];
+};
 const extractEventProcessorMapping = (routeConfig) => {
     const processorMap = new Map();
     for (const key of Object.keys(routeConfig)) {
@@ -52,7 +71,7 @@ const extractEventProcessorMapping = (routeConfig) => {
             continue;
         }
         try {
-            processorMap.set(key, require(`./lib/${key}`));
+            processorMap.set(key, getProcessor(key));
         }
         catch (error) {
             throw new Error(`The event processor '${key}', that is mentioned in the routerConfig, cannot be instantiated (${error.toString()})`);
